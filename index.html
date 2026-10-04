@@ -180,14 +180,31 @@
           </div>
         </div>
         <div>
+          <label class="label" for="dContext">Contexto de los casos</label>
+          <select id="dContext" class="input">
+            <option value="mx">México y San Luis Potosí</option>
+            <option value="mixto">Mixto (global y México)</option>
+            <option value="global">Marcas globales</option>
+          </select>
+        </div>
+        <fieldset>
+          <legend class="label">Formatos de reactivo</legend>
+          <div id="dFormats" class="grid grid-cols-2 gap-1.5"></div>
+        </fieldset>
+        <div>
           <label class="label" for="dSyllabus">Temario o unidades *</label>
           <textarea id="dSyllabus" rows="7" class="input font-mono text-xs" placeholder="Unidad 1: Concepto de publicidad&#10;Unidad 2: Brief creativo&#10;Unidad 3: Planeación de medios&#10;- Métricas de alcance y frecuencia"></textarea>
           <p class="text-[11px] text-slate-500 mt-1">Una línea por tema. Se aceptan viñetas, numeración y punto y coma.</p>
+        </div>
+        <div>
+          <label class="label" for="dExtra">Indicaciones adicionales (opcional)</label>
+          <textarea id="dExtra" rows="2" class="input text-xs" placeholder="Ej. Incluir casos de Coppel y Cinépolis; enfatizar la Unidad 3; evitar cálculos con porcentajes."></textarea>
         </div>
         <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 space-y-2">
           <label class="label mb-0" for="dApiKey">Clave API de Google AI Studio (opcional)</label>
           <input id="dApiKey" type="password" class="input font-mono" placeholder="AIzaSy…" autocomplete="off">
           <label class="flex items-center gap-2 text-xs text-slate-600"><input id="dRememberKey" type="checkbox" class="rounded border-slate-300 text-indigo-600"> Recordar en este navegador</label>
+          <label class="flex items-start gap-2 text-xs text-slate-600"><input id="dReview" type="checkbox" class="mt-0.5 rounded border-slate-300 text-indigo-600" checked> Revisión psicométrica automática (segunda pasada con IA que corrige ambigüedades y pistas)</label>
         </div>
         <p id="designerError" class="hidden text-sm font-semibold text-rose-600"></p>
         <button id="btnGenerate" type="submit" class="btn btn-purple w-full">⚡ Generar evaluación</button>
@@ -473,7 +490,7 @@ function demoExams() {
       'Comprender', 'Necesidades, deseos y demandas'),
     mkQ('A inicios del siglo XX, Ford ofrecía el Modelo T «de cualquier color, siempre que sea negro». ¿Qué enfoque de dirección refleja esta política?',
       'Enfoque de producción: eficiencia y bajo costo sobre la variedad',
-      ['Enfoque de marketing: identificar deseos y adaptar la oferta', 'Enfoque social: equilibrar utilidad, cliente y bienestar común', 'Enfoque de ventas: promoción agresiva para mover el inventario'],
+      ['Enfoque de marketing: identificar deseos y adaptar a ellos la oferta', 'Enfoque social: equilibrar utilidad, cliente y bienestar común', 'Enfoque de ventas: promoción agresiva para mover el inventario'],
       1, 'Ford priorizó la estandarización para bajar costos y hacer el auto accesible: enfoque de producción. El enfoque de marketing habría ofrecido variedad según los deseos del cliente; el social incorpora el bienestar colectivo, ausente en el caso; y el de ventas se centra en empujar inventario con promoción, no en la eficiencia productiva.',
       'Comprender', 'Enfoques de la dirección de mercadotecnia'),
     mkQ('Nike lanza una línea de tenis para maratonistas con placa de fibra de carbono. ¿Qué variable de segmentación prioriza principalmente?',
@@ -487,22 +504,22 @@ function demoExams() {
       0, 'McCarthy propuso las 4P: producto, precio, plaza y promoción. Procesos y personas pertenecen a la ampliación de las 7P para servicios; la publicidad es solo una herramienta dentro de la promoción; y la «prueba» no forma parte de ningún modelo clásico de la mezcla.',
       'Recordar', 'Mezcla de mercadotecnia'),
     mkQ('Starbucks cobra más que una cafetería promedio y aun así conserva clientes leales. ¿Qué decisión de precio sostiene mejor esa estrategia?',
-      'Fijar el precio según el valor percibido de la experiencia total',
+      'Fijar el precio según el valor percibido de toda la experiencia',
       ['Fijar el precio según el costo del café más un margen estándar', 'Fijar el precio según el promedio de las cafeterías de la zona', 'Fijar el precio según la meta de volumen de ventas del trimestre'],
       2, 'Starbucks vende una experiencia (ambiente, servicio, personalización), por eso su precio se basa en el valor percibido. El costo más margen ignora lo que el cliente está dispuesto a pagar; el precio promedio de la competencia diluiría su posicionamiento premium; y fijar precios por metas de volumen es una lógica de penetración contraria a su estrategia.',
       'Aplicar', 'Estrategias de precio'),
     mkQ('Apple comercializa sus equipos solo en tiendas propias, su sitio web y distribuidores seleccionados. ¿Qué estrategia de plaza refleja esta decisión?',
-      'Distribución selectiva para proteger experiencia e imagen de marca',
-      ['Distribución intensiva para estar en todo punto de venta posible', 'Distribución masiva para reducir el costo logístico por unidad', 'Distribución directa para eliminar a todos los intermediarios'],
+      'Distribución selectiva para proteger la experiencia y la imagen',
+      ['Distribución intensiva para estar en todo punto de venta posible', 'Distribución masiva para reducir el costo logístico por unidad', 'Distribución directa para prescindir de cualquier intermediario'],
       3, 'Apple elige pocos canales que cumplen sus estándares de exhibición y servicio: distribución selectiva. La intensiva y la masiva buscan cobertura máxima, opuesta a su control de marca; y no es distribución exclusivamente directa, pues sí trabaja con intermediarios autorizados.',
       'Analizar', 'Canales de distribución'),
-    mkQ('Patagonia invita a sus clientes a reparar su ropa en lugar de comprar prendas nuevas. ¿Qué filosofía de mercadotecnia ilustra esta campaña?',
-      'Mercadotecnia social: equilibra venta, cliente y bienestar común',
+    mkQ('Patagonia invita a sus clientes a reparar su ropa en lugar de comprar prendas nuevas. ¿Qué filosofía de dirección comercial ilustra esta campaña?',
+      'Mercadotecnia social: equilibra venta, cliente y bien común',
       ['Enfoque de ventas: impulsa la compra con promociones agresivas', 'Enfoque de producto: mejora la calidad sin mirar al consumidor', 'Enfoque de producción: reduce costos mediante fabricación masiva'],
       1, 'Patagonia sacrifica ventas de corto plazo en favor del bienestar ambiental y la relación con su cliente: mercadotecnia social. La campaña desalienta la compra, lo contrario del enfoque de ventas; no se trata de perfeccionar el producto aislado del consumidor; y nada en ella busca abaratar costos productivos.',
       'Comprender', 'Enfoques de la dirección de mercadotecnia'),
     mkQ('Tesla invierte muy poco en publicidad tradicional y depende de la cobertura mediática y de la recomendación de sus usuarios. ¿Qué herramientas de promoción predominan?',
-      'Relaciones públicas y comunicación de boca en boca',
+      'Relaciones públicas y difusión de boca en boca',
       ['Publicidad masiva en televisión y medios impresos', 'Promoción de ventas con descuentos de temporada', 'Venta personal con agentes que visitan domicilios'],
       2, 'La notoriedad de Tesla proviene de noticias, eventos de lanzamiento y la recomendación de propietarios: relaciones públicas y boca en boca. La publicidad masiva es precisamente lo que evita; los descuentos de temporada no forman parte de su estrategia de precio; y su modelo de venta es en línea y en tiendas, no puerta a puerta.',
       'Aplicar', 'Mezcla promocional'),
@@ -520,48 +537,48 @@ function demoExams() {
       1, 'En madurez se modifica el mercado, el producto o la mezcla para extender la etapa; el plan con anuncios de Netflix es un ejemplo. Crear conciencia de categoría es propio de la introducción; retirar el servicio corresponde a la declinación; y no hacer cambios ignora que la competencia intensa de la madurez exige ajustes.',
       'Aplicar', 'Ciclo de vida del producto'),
     mkQ('En el portafolio de Grupo Bimbo, una marca de pan de caja líder en un mercado de bajo crecimiento se clasifica en la matriz BCG como:',
-      'Vaca lechera: alta participación en un mercado de bajo crecimiento',
-      ['Estrella: alta participación en un mercado de alto crecimiento', 'Interrogante: baja participación en mercado de alto crecimiento', 'Perro: baja participación en un mercado de bajo crecimiento'],
+      'Vaca lechera: alta participación en mercado de bajo crecimiento',
+      ['Estrella: alta participación en un mercado de alto crecimiento', 'Interrogante: baja participación en un mercado de alto crecimiento', 'Perro: baja participación en un mercado de bajo crecimiento'],
       0, 'Liderazgo (alta participación) en un mercado estable (bajo crecimiento) define a la vaca lechera, que genera efectivo para financiar otras unidades. La estrella requiere un mercado en expansión; la interrogante y el perro implican baja participación, lo opuesto a una marca líder.',
       'Analizar', 'Matriz BCG'),
     mkQ('Volvo ha construido durante décadas la asociación de su marca con la seguridad. ¿Qué estrategia de posicionamiento aplica?',
-      'Posicionamiento por atributo o beneficio específico del producto',
+      'Posicionamiento por atributo o beneficio clave del producto',
       ['Posicionamiento por precio frente a los rivales de la categoría', 'Posicionamiento por usuario según el perfil demográfico objetivo', 'Posicionamiento por competidor al compararse de forma directa'],
       3, 'Volvo se apropia de un atributo concreto (seguridad) que se convierte en beneficio para el comprador. No compite por precio, no define su posicionamiento a partir de un tipo de usuario y no basa su comunicación en comparaciones directas con rivales.',
       'Aplicar', 'Posicionamiento'),
     mkQ('Tras pagar un iPhone de gama alta, un comprador siente dudas y busca reseñas positivas que confirmen su elección. ¿Qué fenómeno describe la situación?',
-      'Disonancia cognitiva posterior a una compra de alto involucramiento',
+      'Disonancia cognitiva tras una compra de alto involucramiento',
       ['Reconocimiento de la necesidad previo a buscar más información', 'Evaluación de alternativas antes de tomar la decisión de compra', 'Lealtad de marca construida por compras repetidas en el tiempo'],
       2, 'La incomodidad después de una compra costosa y la búsqueda de información que la justifique es disonancia cognitiva poscompra. El reconocimiento de la necesidad y la evaluación de alternativas ocurren antes de pagar; la lealtad supone recompra satisfecha, no dudas inmediatas.',
       'Analizar', 'Comportamiento del consumidor'),
     mkQ('Starbucks quiere saber por qué los clientes de 18 a 25 años visitan menos sus tiendas en México. ¿Qué diseño de investigación es el más adecuado como primer paso?',
-      'Exploratorio con sesiones de grupo para descubrir motivos reales',
+      'Exploratorio con sesiones de grupo para descubrir los motivos',
       ['Causal con experimentos de precio antes de conocer los motivos', 'Descriptivo con un censo total sin hipótesis ni variables claras', 'Documental con reportes financieros sin contacto con el cliente'],
       0, 'Cuando se desconoce el porqué, la investigación exploratoria (sesiones de grupo, entrevistas) genera hipótesis. Un experimento causal presupone conocer la variable a manipular; un censo descriptivo sin hipótesis es costoso y poco enfocado; y los reportes financieros muestran el síntoma, no los motivos del consumidor.',
       'Evaluar', 'Investigación de mercados'),
     mkQ('Nike usa su nombre para lanzar ropa, relojes deportivos y aplicaciones de entrenamiento. ¿Qué estrategia de marca aplica?',
-      'Extensión de marca hacia nuevas categorías con el mismo nombre',
+      'Extensión de marca a nuevas categorías con el mismo nombre',
       ['Multimarca con nombres distintos dentro de una misma categoría', 'Marca nueva para una categoría sin relación con la empresa', 'Marca compartida con otra empresa para un producto conjunto'],
       3, 'Llevar el nombre Nike a categorías distintas del calzado es extensión de marca, apalancando su capital. La estrategia multimarca usaría nombres diferentes; una marca nueva no aprovecharía el nombre existente; y la marca compartida implica a un socio, lo cual no ocurre en los casos descritos.',
       'Aplicar', 'Estrategias de marca'),
     mkQ('Tesla lanzó primero el Model S a precio alto y después introdujo modelos más accesibles. ¿Cómo se evalúa esta secuencia de precios?',
-      'Descremado: capta primero a quienes están dispuestos a pagar más',
+      'Descremado: capta antes a quienes pagan más por la novedad',
       ['Penetración: entra con precio bajo para ganar volumen muy rápido', 'Paridad: iguala el precio promedio de la competencia directa', 'Psicológico: usa terminaciones en 9 para parecer más económico'],
       1, 'Iniciar con precio alto para segmentos de mayor disposición a pagar y bajar después es descremado. La penetración haría lo inverso; la paridad no explica la secuencia descendente; y el precio psicológico es una táctica de redondeo, no una estrategia de entrada al mercado.',
       'Evaluar', 'Estrategias de precio'),
     mkQ('Mercado Libre ofrece envío gratis a partir de cierto monto de compra. ¿Qué efecto conductual busca principalmente?',
-      'Aumentar el ticket promedio al motivar compras adicionales',
+      'Aumentar el ticket promedio motivando compras adicionales',
       ['Reducir el número de vendedores activos en la plataforma', 'Disminuir la frecuencia de visita de compradores leales', 'Elevar el costo percibido de productos de baja rotación'],
       2, 'Un umbral de envío gratis incentiva agregar artículos para alcanzarlo, elevando el ticket promedio. La medida no busca reducir vendedores, no desalienta visitas y no pretende encarecer percepciones; esos efectos serían contrarios al modelo de un marketplace.',
       'Analizar', 'Comportamiento del consumidor'),
     mkQ('Debes reposicionar una marca regional de cajeta ante consumidores jóvenes. ¿Qué secuencia estratégica es la más sólida?',
       'Investigar percepciones, definir la propuesta y probar el mensaje',
-      ['Cambiar el logotipo, lanzar campaña y luego estudiar al cliente', 'Bajar el precio, ampliar distribución y luego definir el segmento', 'Copiar el tono de marcas globales y medir solo el alcance en redes'],
+      ['Cambiar el logotipo, lanzar campaña y luego estudiar al cliente', 'Bajar el precio, ampliar distribución y luego definir el segmento', 'Copiar el tono de marcas globales y medir el alcance en redes'],
       0, 'Reposicionar exige entender primero la percepción actual, definir la nueva propuesta de valor y validarla antes de invertir. Cambiar identidad o precio antes de investigar es actuar sin diagnóstico; y copiar el tono de marcas globales sacrifica la autenticidad regional, mientras que medir solo alcance ignora el cambio de percepción.',
       'Crear', 'Posicionamiento'),
     mkQ('McDonald\u2019s ofrece platillos locales en México y menús sin carne de res en India. ¿Qué enfoque de mercadotecnia internacional refleja?',
-      'Adaptación: ajusta la oferta a la cultura de cada mercado local',
-      ['Estandarización: ofrece el mismo producto en todos los países', 'Exportación indirecta: vende mediante intermediarios locales', 'Etnocentrismo: impone los gustos del país de origen de la marca'],
+      'Adaptación: ajusta la oferta a la cultura de cada mercado',
+      ['Estandarización: ofrece un producto idéntico en cada país', 'Exportación indirecta: vende mediante intermediarios locales', 'Etnocentrismo: impone los gustos del país de origen de la marca'],
       1, 'Modificar el menú según costumbres y creencias de cada país es adaptación. La estandarización mantendría el mismo menú global; la exportación indirecta es un modo de entrada, no una decisión de producto; y el etnocentrismo es justamente lo que la empresa evita al ajustar su oferta.',
       'Evaluar', 'Mercadotecnia internacional')
   ];
@@ -573,14 +590,14 @@ function demoExams() {
       title: 'Primer parcial · Nivel básico', level: 'Licenciatura', type: '1er Parcial',
       date: '2026-10-13', time: '08:00', duration: 30,
       topics: ['Concepto de mercadotecnia', 'Necesidades, deseos y demandas', 'Enfoques de la dirección de mercadotecnia', 'Mezcla de mercadotecnia', 'Segmentación de mercados', 'Comportamiento del consumidor'],
-      questions: withIds(basic), source: 'demo', isDemo: true, createdAt: 1
+      questions: withIds(basic), source: 'demo-v2', isDemo: true, createdAt: 1
     },
     {
       id: 'DEMO-MKT-INT', pin: 'MKT-P2', materia: 'Fundamentos de Mercadotecnia',
       title: 'Segundo parcial · Nivel intermedio', level: 'Licenciatura', type: '2do Parcial',
       date: '2026-11-10', time: '10:00', duration: 45,
       topics: ['Ciclo de vida del producto', 'Matriz BCG', 'Posicionamiento', 'Comportamiento del consumidor', 'Investigación de mercados', 'Estrategias de marca y precio', 'Mercadotecnia internacional'],
-      questions: withIds(inter), source: 'demo', isDemo: true, createdAt: 2
+      questions: withIds(inter), source: 'demo-v2', isDemo: true, createdAt: 2
     }
   ];
 }
@@ -635,9 +652,12 @@ const DB = {
   initLocal(reason) {
     this.mode = 'local';
     this.reason = reason;
-    const exams = store.get(COL_EXAMS, []);
-    const ids = new Set(exams.map(e => e.id));
-    demoExams().forEach(d => { if (!ids.has(d.id)) exams.push(d); });
+    let exams = store.get(COL_EXAMS, []);
+    demoExams().forEach(d => {
+      const i = exams.findIndex(e => e.id === d.id);
+      if (i < 0) exams.push(d);
+      else if (exams[i].source === 'demo') exams[i] = d;
+    });
     store.set(COL_EXAMS, exams);
     if (!store.get(COL_SUBS, null)) store.set(COL_SUBS, []);
     window.addEventListener('storage', e => {
@@ -647,9 +667,15 @@ const DB = {
   },
 
   async seedCloud() {
-    const { error } = await this.sb.from(TB_EXAMS)
-      .upsert(demoExams().map(e => toRow(e, EXAM_MAP)), { onConflict: 'id', ignoreDuplicates: true });
-    if (error) console.warn('[SIGEA] No se pudieron sembrar los demos', error);
+    const demos = demoExams();
+    const { data, error } = await this.sb.from(TB_EXAMS).select('id, source').in('id', demos.map(d => d.id));
+    if (error) { console.warn('[SIGEA] No se pudieron revisar los demos', error); return; }
+    const current = new Map((data || []).map(r => [r.id, r.source]));
+    // Inserta los demos que falten y actualiza los de versiones anteriores que el docente no haya editado.
+    const pending = demos.filter(d => !current.has(d.id) || current.get(d.id) === 'demo');
+    if (!pending.length) return;
+    const { error: e2 } = await this.sb.from(TB_EXAMS).upsert(pending.map(e => toRow(e, EXAM_MAP)), { onConflict: 'id' });
+    if (e2) console.warn('[SIGEA] No se pudieron sembrar los demos', e2);
   },
 
   emitLocal(kind) {
@@ -805,7 +831,7 @@ const DB = {
 };
 
 /* ===================== ESTADO GLOBAL ===================== */
-const T = { auth: false, exams: [], subs: [], unsubs: [], pendingView: null, draft: null, qrExam: null };
+const T = { auth: false, exams: [], subs: [], unsubs: [], pendingView: null, draft: null, draftForm: null, qrExam: null, editing: null, newItem: false, busy: null };
 const S = {
   exam: null, accessMode: null, pendingExamId: null, accessError: '', draft: { name: '', email: '', id: '', group: '' },
   student: null, answers: [], marked: [], current: 0, incidents: 0, startAt: 0, endAt: 0,
@@ -1191,7 +1217,7 @@ function renderQuestion() {
       ${q.topic ? `<span class="badge bg-slate-100 text-slate-600">${esc(q.topic)}</span>` : ''}
       ${S.marked[i] ? '<span class="badge bg-amber-100 text-amber-800">🚩 Marcado para revisión</span>' : ''}
     </div>
-    <p class="text-base sm:text-lg font-semibold text-slate-900 leading-relaxed mb-5">${esc(q.q)}</p>
+    <p class="text-base sm:text-lg font-semibold text-slate-900 leading-relaxed mb-5 whitespace-pre-line">${esc(q.q)}</p>
     <div class="space-y-3">
       ${q.options.map((o, k) => `
         <button class="opt ${S.answers[i] === k ? 'selected' : ''}" data-opt="${k}" aria-pressed="${S.answers[i] === k}">
@@ -1347,7 +1373,7 @@ function renderResult() {
             <div class="flex items-start gap-3 p-4 ${ok ? 'bg-emerald-50' : 'bg-rose-50'}">
               <span class="w-8 h-8 shrink-0 rounded-lg grid place-items-center font-extrabold text-sm text-white ${ok ? 'bg-emerald-600' : 'bg-rose-600'}">${i + 1}</span>
               <div class="min-w-0">
-                <p class="font-semibold text-slate-900 text-sm leading-relaxed">${esc(q.q)}</p>
+                <p class="font-semibold text-slate-900 text-sm leading-relaxed whitespace-pre-line">${esc(q.q)}</p>
                 <p class="text-[11px] text-slate-500 mt-1">${esc(q.bloom || '')}${q.topic ? ` · ${esc(q.topic)}` : ''}</p>
               </div>
             </div>
@@ -1415,11 +1441,13 @@ function renderRepo() {
       <div class="mt-auto flex flex-wrap gap-2">
         <button class="btn btn-primary btn-sm flex-1" data-qr="${esc(e.id)}">▦ Generar QR</button>
         <button class="btn btn-ghost btn-sm" data-try="${esc(e.id)}">Probar como alumno</button>
+        <button class="btn btn-ghost btn-sm" data-edit="${esc(e.id)}">✏️ Editar</button>
         ${e.isDemo ? '' : `<button class="btn btn-ghost btn-sm text-rose-600" data-del="${esc(e.id)}" aria-label="Eliminar">🗑</button>`}
       </div>
     </article>`).join('');
   $$('[data-qr]', grid).forEach(b => b.onclick = () => openQR(T.exams.find(x => x.id === b.dataset.qr)));
   $$('[data-try]', grid).forEach(b => b.onclick = () => testAsStudent(T.exams.find(x => x.id === b.dataset.try)));
+  $$('[data-edit]', grid).forEach(b => b.onclick = () => loadIntoDesigner(T.exams.find(x => x.id === b.dataset.edit)));
   $$('[data-del]', grid).forEach(b => b.onclick = async () => {
     const ex = T.exams.find(x => x.id === b.dataset.del);
     if (!ex) return;
@@ -1757,74 +1785,262 @@ function generateInternal({ materia, n, focus, syllabus }) {
   return { questions, topics };
 }
 
-function buildPrompt({ materia, level, type, n, focus, syllabus }) {
+/* ===================== DISEÑADOR · PAQUETE DE CALIDAD ===================== */
+const FORMATS = {
+  conceptual: 'Conceptual directo',
+  minicaso: 'Minicaso con datos',
+  secuencia: 'Secuencia u ordenamiento',
+  relacion: 'Relación de columnas',
+  error: 'Identificar el error',
+  decision: 'Mejor decisión estratégica'
+};
+const FORMAT_DESC = {
+  conceptual: 'definición o distinción precisa entre conceptos del temario.',
+  minicaso: 'situación de 2 a 4 líneas con cifras reales o verosímiles (ventas, participación, precios, márgenes, alcance) que exige calcular o interpretar antes de decidir.',
+  secuencia: 'el enunciado enumera de 4 a 5 pasos numerados en desorden; las opciones son órdenes distintos (por ejemplo «3, 1, 4, 2»).',
+  relacion: 'el enunciado presenta dos listas, conceptos numerados del 1 al 4 y descripciones de la a) a la d); las opciones son combinaciones (por ejemplo «1b, 2a, 3d, 4c»).',
+  error: 'se describe una estrategia que aplicó una marca y se pide identificar la falla conceptual principal.',
+  decision: 'situación de negocio con restricciones concretas y cuatro cursos de acción plausibles.'
+};
+const CONTEXTS = {
+  mx: 'Usa principalmente marcas y empresas que operan en México (Bimbo, OXXO, Coppel, Liverpool, Grupo Modelo, Cinépolis, Telcel, Mercado Libre, Walmart de México, Farmacias Guadalajara, etc.) e incluye casos de una PyME o comercio de San Luis Potosí descritos de forma genérica (por ejemplo «una cadena potosina de cafeterías»), sin inventar nombres de empresas locales reales.',
+  mixto: 'Combina marcas globales (Apple, Nike, Tesla, Starbucks, Netflix) con marcas que operan en México (Bimbo, OXXO, Coppel, Liverpool, Mercado Libre) y algún caso genérico de una PyME potosina.',
+  global: 'Usa marcas globales reconocidas (Apple, Nike, Tesla, Starbucks, Coca-Cola, Netflix, Amazon, Samsung, etc.).'
+};
+const BLOOM_LEVELS = ['Recordar', 'Comprender', 'Aplicar', 'Analizar', 'Evaluar', 'Crear'];
+const ABSOLUTES = /\b(siempre|nunca|jam[aá]s|todos|todas|ninguno|ninguna|solo|s[oó]lo|[uú]nicamente|exclusivamente|completamente|totalmente)\b/i;
+const NONE_ALL = /\b(todas|ninguna)\s+(de\s+)?las\s+(anteriores|opciones)|ambas\s+son\s+correctas/i;
+const LETTER_COMBO = /\b[A-D]\)?\s+y\s+[A-D]\)?(?![A-Za-zÁÉÍÓÚÑáéíóúñ])/;
+const NEGATIVE_STEM = /\b(excepto|no es|no corresponde|incorrect[ao]s?)\b/i;
+const fmtNum = n => Number(n).toLocaleString('es-MX', { maximumFractionDigits: 2 });
+
+/* ---------- Validador psicométrico local ---------- */
+const ISSUE = (level, msg) => ({ level, msg });
+const stripThousands = s => { let out = String(s), prev; do { prev = out; out = out.replace(/(\d),(\d{3})(?!\d)/, '$1$2'); } while (out !== prev); return out; };
+const numsIn = s => (stripThousands(s).match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+
+function checkCalc(q) {
+  if (!q.calc || !String(q.calc.expresion || '').trim()) return null;
+  const expr = stripThousands(q.calc.expresion).replace(/×/g, '*').replace(/÷/g, '/');
+  if (!/^[\d\s+\-*/().]+$/.test(expr)) return ISSUE('warn', 'No se pudo verificar el cálculo: la expresión contiene texto.');
+  let val;
+  try { val = Function(`"use strict"; return (${expr});`)(); } catch { return ISSUE('warn', 'La expresión de cálculo no es válida.'); }
+  if (!Number.isFinite(val)) return ISSUE('warn', 'La expresión de cálculo no produce un número.');
+  const tol = Math.max(0.051, Math.abs(val) * 0.005);
+  const declared = Number(q.calc.resultado);
+  if (Number.isFinite(declared) && Math.abs(val - declared) > tol) return ISSUE('error', `Cálculo inconsistente: la expresión da ${fmtNum(val)} y el reactivo declara ${fmtNum(declared)}.`);
+  if (!numsIn(q.options[q.answer]).some(n => Math.abs(n - val) <= tol)) return ISSUE('error', `La opción correcta no contiene el resultado verificado (${fmtNum(val)}).`);
+  if (q.options.some((o, i) => i !== q.answer && numsIn(o).some(n => Math.abs(n - val) <= tol))) return ISSUE('error', `Un distractor también contiene el resultado correcto (${fmtNum(val)}).`);
+  return ISSUE('ok', `Cálculo verificado: ${fmtNum(val)}`);
+}
+
+function validateItem(q) {
+  const out = [];
+  const opts = Array.isArray(q.options) ? q.options.map(o => String(o ?? '')) : [];
+  if (opts.length !== 4 || opts.some(o => !o.trim())) { out.push(ISSUE('error', 'Debe tener exactamente 4 opciones con texto.')); return out; }
+  if (!(q.answer >= 0 && q.answer <= 3)) { out.push(ISSUE('error', 'La clave de respuesta no es válida.')); return out; }
+  const stem = String(q.q || '');
+  if (stem.trim().length < 25) out.push(ISSUE('warn', 'Enunciado muy breve; puede no ser autosuficiente.'));
+  if (NEGATIVE_STEM.test(stem)) out.push(ISSUE('warn', 'Enunciado en negativo («excepto», «no es», «incorrecto»).'));
+  if (opts.some(o => FORBIDDEN.test(o))) out.push(ISSUE('error', 'Una opción contiene una justificación delatora («porque», «debido a», «ya que»).'));
+  if (opts.some(o => NONE_ALL.test(o) || LETTER_COMBO.test(o))) out.push(ISSUE('error', 'Opción del tipo «todas/ninguna de las anteriores» o combinación de incisos.'));
+  const n = opts.map(o => norm(o).replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim());
+  if (new Set(n).size < 4) out.push(ISSUE('error', 'Hay opciones duplicadas.'));
+  const abs = opts.map(o => ABSOLUTES.test(o));
+  if (abs.some(Boolean) && !abs.every(Boolean)) {
+    out.push(ISSUE('warn', abs[q.answer]
+      ? 'Solo algunas opciones usan absolutos («siempre», «solo»…), entre ellas la correcta.'
+      : 'Los absolutos («siempre», «solo», «nunca»…) aparecen solo en distractores y delatan que son incorrectos.'));
+  }
+  const lens = opts.map(o => o.length);
+  const ratio = Math.max(...lens) / Math.max(1, Math.min(...lens));
+  if (ratio > 1.35) out.push(ISSUE('warn', `Opciones desbalanceadas en longitud (×${ratio.toFixed(2)}).`));
+  const sorted = [...lens].sort((a, b) => b - a);
+  if (lens[q.answer] === sorted[0] && sorted[0] > sorted[1] * 1.1) out.push(ISSUE('warn', 'La opción correcta es notablemente la más larga.'));
+  const stemWords = new Set(norm(stem).match(/[a-z]{6,}/g) || []);
+  const cue = [...stemWords].filter(w => norm(opts[q.answer]).includes(w) && !opts.some((o, k) => k !== q.answer && norm(o).includes(w)));
+  if (cue.length) out.push(ISSUE('warn', `La correcta repite palabras del enunciado que ningún distractor usa («${cue.slice(0, 2).join('», «')}»).`));
+  const exp = String(q.explanation || '');
+  if (exp.trim().length < 80) out.push(ISSUE('warn', 'La argumentación pedagógica es muy breve.'));
+  if (/\b(opci[oó]n|inciso|respuesta)\s+[A-D]\b|\(\s*[A-D]\s*\)/.test(exp)) out.push(ISSUE('warn', 'La argumentación menciona letras de inciso; como el orden de opciones cambia, conviene referirse al contenido.'));
+  const c = checkCalc(q);
+  if (c) out.push(c);
+  return out;
+}
+
+function validateExam(qs) {
+  const out = [];
+  if (qs.length < 5) out.push(ISSUE('error', `El examen necesita al menos 5 reactivos (tiene ${qs.length}).`));
+  if (qs.length > 30) out.push(ISSUE('error', `El examen admite como máximo 30 reactivos (tiene ${qs.length}).`));
+  const valid = qs.filter(q => q.answer >= 0 && q.answer <= 3 && Array.isArray(q.options) && q.options.length === 4);
+  const dist = [0, 0, 0, 0];
+  valid.forEach(q => dist[q.answer]++);
+  if (valid.length >= 8 && (Math.max(...dist) / valid.length > 0.4 || dist.includes(0))) {
+    out.push(ISSUE('warn', `Claves desbalanceadas: A=${dist[0]}, B=${dist[1]}, C=${dist[2]}, D=${dist[3]}. Usa «Rebalancear claves».`));
+  }
+  const longest = valid.filter(q => { const l = q.options.map(o => String(o).length); return l[q.answer] === Math.max(...l); }).length;
+  if (valid.length >= 5 && longest / valid.length > 0.4) out.push(ISSUE('warn', `La correcta es la opción más larga en ${longest} de ${valid.length} reactivos; un alumno podría adivinar por longitud.`));
+  const stems = qs.map(q => norm(q.q).replace(/\W+/g, ' ').trim());
+  const dups = stems.filter((s, i) => s && stems.indexOf(s) !== i).length;
+  if (dups) out.push(ISSUE('warn', `${dups} reactivo(s) repiten el enunciado de otro.`));
+  return { issues: out, dist };
+}
+
+/* ---------- Posición de la clave ---------- */
+function placeAnswer(q, pos) {
+  const correct = q.options[q.answer];
+  const ds = shuffle(q.options.filter((_, i) => i !== q.answer));
+  ds.splice(pos, 0, correct);
+  return { ...q, options: ds, answer: pos };
+}
+function balanceKeys(qs) {
+  const targets = [];
+  while (targets.length < qs.length) targets.push(...shuffle([0, 1, 2, 3]));
+  return qs.map((q, i) => (q.options?.length === 4 && q.answer >= 0 ? placeAnswer(q, targets[i]) : q));
+}
+
+/* ---------- Prompts ---------- */
+function shotJson(q, format) {
+  return { pregunta: q.q, opciones: q.options, correcta: q.answer, argumentacion: q.explanation, bloom: q.bloom, tema: q.topic, formato: format, calculo: null };
+}
+function fewShots() {
+  const d = demoExams();
+  return JSON.stringify([shotJson(d[1].questions[0], FORMATS.decision), shotJson(d[0].questions[3], FORMATS.conceptual)], null, 1);
+}
+
+function buildPrompt(f, single = null) {
   const focusTxt = {
     equilibrado: '35% Recordar/Comprender, 40% Aplicar/Analizar, 25% Evaluar/Crear',
     inicial: '60% Recordar/Comprender, 30% Aplicar/Analizar, 10% Evaluar/Crear',
     superior: '15% Recordar/Comprender, 35% Aplicar/Analizar, 50% Evaluar/Crear'
-  }[focus];
-  return `Eres un psicometrista experto en evaluación universitaria y en la materia "${materia}".
-Diseña un examen de ${n} reactivos de opción múltiple en español de México para nivel ${level}, tipo "${type}".
-Distribución de la taxonomía de Bloom: ${focusTxt}.
+  }[f.focus];
+  const formats = (f.formats?.length ? f.formats : Object.keys(FORMATS)).map(k => `- ${FORMATS[k]}: ${FORMAT_DESC[k]}`).join('\n');
+  const task = single
+    ? `Diseña UN SOLO reactivo nuevo de opción múltiple en español de México para la materia "${f.materia}", nivel ${f.level}, tipo "${f.type}".
+Debe evaluar el tema «${single.topic || f.materia}», con nivel Bloom «${single.bloom}» y formato «${single.format || FORMATS.decision}».
+Debe ser claramente distinto de este reactivo anterior, que se descartó: «${single.avoid}».`
+    : `Diseña ${f.n} reactivos de opción múltiple en español de México para la materia "${f.materia}", nivel ${f.level}, tipo "${f.type}".
+DISTRIBUCIÓN BLOOM: ${focusTxt}.
+FORMATOS A COMBINAR (distribúyelos de forma equilibrada entre los reactivos):
+${formats}`;
+  return `Eres especialista en psicometría y en redacción de reactivos de opción múltiple para educación superior, y experto en "${f.materia}".
+${task}
 
-TEMARIO:
-${syllabus}
+CONTEXTO DE LOS CASOS: ${CONTEXTS[f.context] || CONTEXTS.mx}
 
-REGLAS PSICOMÉTRICAS OBLIGATORIAS:
-1. Exactamente 4 opciones por reactivo y una sola correcta.
-2. Las 4 opciones de cada reactivo deben tener longitud semejante (diferencia máxima de 15% en caracteres) y la misma estructura gramatical.
-3. Ninguna opción puede contener las palabras "porque", "debido a" ni "ya que", ni justificar su propio contenido.
-4. Prohibido "todas las anteriores", "ninguna de las anteriores" y opciones absurdas. Los distractores deben ser errores conceptuales plausibles.
-5. Combina preguntas conceptuales directas con casos de marcas reales (Apple, Nike, Tesla, Starbucks, Coca-Cola, Netflix, Bimbo, Mercado Libre, OXXO, etc.) que exijan tomar una decisión.
-6. La "argumentacion" explica por qué la opción correcta lo es y qué error conceptual representa cada distractor.
-7. Cubre de forma equilibrada los temas del temario.
+TEMARIO DEL CURSO:
+${f.syllabus}
+${f.extra ? `\nINDICACIONES ADICIONALES DEL DOCENTE:\n${f.extra}\n` : ''}
+REGLAS DEL ENUNCIADO
+1. Autosuficiente: debe poder responderse sin leer las opciones y plantear un problema completo.
+2. Redactado en positivo; no uses «excepto», «no es» ni «incorrecto».
+3. Sin pistas gramaticales: concordancia de género y número entre el enunciado y las cuatro opciones.
+4. Una sola respuesta defendible por un experto; los distractores deben ser incorrectos para quien domina el tema y plausibles para quien no.
+5. En los niveles Aplicar, Analizar, Evaluar y Crear el reactivo culmina en una decisión gerencial o de negocio: el alumno debe concluir «por lo tanto, ¿qué conviene hacer?».
+6. Usa saltos de línea (\\n) dentro de "pregunta" para listas de pasos o columnas.
+
+REGLAS DE LAS OPCIONES
+7. Exactamente 4 opciones, de longitud semejante (±15% de caracteres) y con la misma estructura gramatical.
+8. Prohibido en las opciones: «porque», «debido a», «ya que», justificaciones, «todas/ninguna de las anteriores», combinaciones de incisos y absolutos («siempre», «nunca», «todos», «solo», «únicamente») salvo que aparezcan en las cuatro.
+9. Cada distractor representa un error conceptual real y distinto: confusión entre conceptos, enfoque obsoleto, error típico de cálculo o decisión sin diagnóstico.
+10. La correcta NO debe ser sistemáticamente la más larga ni la más prudente o «metódica»; varía el tipo de acierto.
+11. No repitas en la correcta palabras clave del enunciado que no aparezcan también en los distractores.
+
+CÁLCULOS
+12. Si el reactivo exige calcular, agrega "calculo": {"expresion": "expresión aritmética con números y + - * / ( ), punto decimal", "resultado": número}. La opción correcta contiene ese resultado y los distractores, resultados de errores típicos. Si no hay cálculo, usa "calculo": null.
+
+ARGUMENTACIÓN
+13. "argumentacion" explica por qué la correcta lo es y qué error conceptual representa cada distractor. Refiérete a cada opción por su contenido, nunca por su letra, porque el orden de las opciones se barajará.
+
+EJEMPLOS DEL NIVEL DE CALIDAD ESPERADO
+${fewShots()}
 
 Responde ÚNICAMENTE con JSON válido, sin texto adicional ni bloques de código, con esta forma exacta:
-{"temas":["tema 1","tema 2"],"reactivos":[{"pregunta":"...","opciones":["...","...","...","..."],"correcta":0,"argumentacion":"...","bloom":"Aplicar","tema":"..."}]}`;
+{"temas":["tema 1","tema 2"],"reactivos":[{"pregunta":"...","opciones":["...","...","...","..."],"correcta":0,"argumentacion":"...","bloom":"Aplicar","tema":"...","formato":"${FORMATS.minicaso}","calculo":{"expresion":"(1500-1200)/1200*100","resultado":25}}]}`;
 }
 
-function parseAIJson(text, n) {
+function buildReviewPrompt(f, questions, flags) {
+  const items = questions.map((q, i) => ({
+    n: i + 1, pregunta: q.q, opciones: q.options, correcta: q.answer, argumentacion: q.explanation,
+    bloom: q.bloom, tema: q.topic, formato: q.format, calculo: q.calc || null
+  }));
+  return `Eres revisor psicométrico senior de exámenes universitarios de "${f.materia}" (nivel ${f.level}).
+Revisa cada reactivo y corrígelo cuando sea necesario:
+- Verifica que exista una sola respuesta correcta defendible y que "correcta" (índice 0 a 3) apunte a ella.
+- Elimina pistas: diferencias de longitud mayores a 15%, discordancias gramaticales, absolutos solo en algunos distractores, palabras del enunciado repetidas solo en la correcta, justificaciones con «porque», «debido a» o «ya que».
+- Corrige ambigüedades, datos falsos sobre marcas reales y errores de cálculo (si hay "calculo", la expresión debe dar el resultado y la correcta contenerlo).
+- Asegura que la argumentación explique la correcta y el error de cada distractor refiriéndose a su contenido, no a su letra.
+- Conserva el tema, el nivel Bloom y el formato. No cambies un reactivo que ya cumple.
+
+Devuelve EXACTAMENTE ${items.length} reactivos, en el mismo orden, con el mismo esquema, y agrega a cada uno "cambios": una frase breve con lo que corregiste, o "Sin cambios".
+
+ALERTAS DETECTADAS AUTOMÁTICAMENTE:
+${JSON.stringify(flags)}
+
+REACTIVOS:
+${JSON.stringify(items)}
+
+Responde ÚNICAMENTE con JSON válido con la forma {"reactivos":[...]}.`;
+}
+
+/* ---------- Lectura de respuestas de la IA ---------- */
+function normalizeItem(r) {
+  if (!r || typeof r !== 'object') return null;
+  const options = (r.opciones || r.options || []).map(o => String(o ?? '').trim());
+  const ans = Number(r.correcta ?? r.answer);
+  const stem = String(r.pregunta || r.q || '').trim();
+  if (!stem || options.length !== 4 || options.some(o => !o) || !(ans >= 0 && ans <= 3)) return null;
+  const c = r.calculo || r.calc;
+  return {
+    q: stem, options, answer: ans,
+    explanation: String(r.argumentacion || r.explanation || '').trim() || 'Revisa el concepto central del tema y compáralo con cada distractor.',
+    bloom: BLOOM_LEVELS.find(b => norm(b) === norm(r.bloom)) || String(r.bloom || 'Comprender').trim(),
+    topic: String(r.tema || r.topic || '').trim(),
+    format: String(r.formato || r.format || '').trim(),
+    calc: c && String(c.expresion || '').trim() ? { expresion: String(c.expresion), resultado: Number(c.resultado) } : null,
+    _review: r.cambios ? String(r.cambios) : undefined
+  };
+}
+function extractJson(text) {
   let clean = String(text || '').replace(/```json|```/gi, '').trim();
   const s = clean.indexOf('{'), e = clean.lastIndexOf('}');
   if (s >= 0 && e > s) clean = clean.slice(s, e + 1);
-  const data = JSON.parse(clean);
+  return JSON.parse(clean);
+}
+function parseAIJson(text, n) {
+  const data = extractJson(text);
   const list = Array.isArray(data) ? data : (data.reactivos || data.questions || []);
-  const valid = list.map(r => {
-    const options = (r.opciones || r.options || []).map(o => String(o).trim());
-    const ans = Number(r.correcta ?? r.answer);
-    if (!r.pregunta && !r.q) return null;
-    if (options.length !== 4 || options.some(o => !o) || !(ans >= 0 && ans <= 3)) return null;
-    const order = shuffle([0, 1, 2, 3]);
-    return {
-      q: String(r.pregunta || r.q).trim(), options: order.map(k => options[k]), answer: order.indexOf(ans),
-      explanation: String(r.argumentacion || r.explanation || 'Revisa el concepto central del tema y compáralo con cada distractor.').trim(),
-      bloom: String(r.bloom || 'Comprender').trim(), topic: String(r.tema || r.topic || '').trim()
-    };
-  }).filter(Boolean);
-  if (valid.length < Math.ceil(n * 0.6)) throw new Error(`JSON con ${valid.length} reactivos válidos de ${n}`);
+  const valid = list.map(normalizeItem).filter(Boolean);
+  if (valid.length < Math.max(1, Math.ceil(n * 0.6))) throw new Error(`la respuesta trae ${valid.length} reactivos válidos de ${n}`);
   return { questions: valid.slice(0, n), topics: Array.isArray(data.temas) ? data.temas.map(String) : [] };
 }
+function parseReview(text, n) {
+  const data = extractJson(text);
+  const list = (Array.isArray(data) ? data : data.reactivos || []).map(normalizeItem);
+  if (list.length !== n || list.some(x => !x)) throw new Error(`la revisión devolvió ${list.filter(Boolean).length} reactivos válidos de ${n}`);
+  return list;
+}
 
-async function callGemini(key, prompt, n, log) {
+async function callGemini(key, prompt, parse, log, label) {
   for (const model of GEMINI_MODELS) {
     for (let attempt = 0; attempt < 3; attempt++) {
       const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), 60000);
+      const timeout = setTimeout(() => ctrl.abort(), 90000);
       try {
-        log(`→ ${model} · intento ${attempt + 1}`);
+        log(`→ ${label} · ${model} · intento ${attempt + 1}`);
         const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-          body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, responseMimeType: 'application/json' } }),
+          body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.6, responseMimeType: 'application/json' } }),
           signal: ctrl.signal
         });
         clearTimeout(timeout);
         if (!r.ok) { const err = new Error(`HTTP ${r.status}`); err.status = r.status; throw err; }
-        const data = await r.json();
-        const text = (data?.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
-        const parsed = parseAIJson(text, n);
-        log(`✔ ${model} respondió ${parsed.questions.length} reactivos válidos`, 'ok');
-        return { model, ...parsed };
+        const json = await r.json();
+        const text = (json?.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
+        const data = parse(text);
+        log(`✔ ${label}: ${model} respondió correctamente`, 'ok');
+        return { model, data };
       } catch (e) {
         clearTimeout(timeout);
         const st = e.status || 0;
@@ -1833,11 +2049,31 @@ async function callGemini(key, prompt, n, log) {
         if (attempt < 2) { const wait = 800 * 2 ** attempt; log(`   reintento en ${wait} ms`); await sleep(wait); }
       }
     }
-    log(`↪ failover al siguiente modelo`);
+    log('↪ failover al siguiente modelo');
   }
   throw new Error('Ningún modelo de Gemini respondió');
 }
 
+/* ---------- Motor interno: un reactivo suelto ---------- */
+function generateInternalOne({ bloom, topic, avoid }) {
+  const b = norm(bloom);
+  const tier = ['recordar', 'comprender'].includes(b) ? 'inicial' : ['aplicar', 'analizar'].includes(b) ? 'medio' : 'superior';
+  const candidates = shuffle(TEMPLATES[tier]);
+  for (const tpl of candidates) {
+    const brand = pick(BRANDS);
+    const stem = tpl.q(topic, brand);
+    if (stem === avoid) continue;
+    const order = shuffle([0, 1, 2, 3]);
+    const raw = [tpl.c, ...tpl.d];
+    return {
+      q: stem, options: order.map(k => raw[k]), answer: order.indexOf(0), explanation: tpl.e(topic, brand),
+      bloom: tpl.bloom, topic, format: tier === 'inicial' ? FORMATS.conceptual : FORMATS.decision, calc: null
+    };
+  }
+  return null;
+}
+
+/* ---------- Utilidades del diseñador ---------- */
 function makePin(materia, type) {
   const stop = ['DEL', 'DE', 'LOS', 'LAS', 'LA', 'EL', 'PARA', 'CON', 'Y', 'EN'];
   const words = materia.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z ]/g, '').split(/\s+/).filter(w => w.length > 2 && !stop.includes(w));
@@ -1857,21 +2093,35 @@ function genLog(msg, type = 'info') {
   el.scrollTop = el.scrollHeight;
 }
 
-function balanceInfo(q) {
-  const lens = q.options.map(o => o.length);
-  const ratio = Math.max(...lens) / Math.max(1, Math.min(...lens));
-  const forbidden = q.options.some(o => FORBIDDEN.test(o));
-  return { ratio, ok: ratio <= 1.35 && !forbidden, forbidden };
+function renderFormatChecks() {
+  $('#dFormats').innerHTML = Object.entries(FORMATS).map(([k, label]) => `
+    <label class="flex items-center gap-2 text-xs text-slate-700 rounded-lg border border-slate-200 bg-white px-2.5 py-2 cursor-pointer hover:border-indigo-300">
+      <input type="checkbox" value="${k}" class="dfmt rounded border-slate-300 text-indigo-600" checked> ${esc(label)}
+    </label>`).join('');
 }
 
-$('#designerForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const f = {
+function readDesignerForm() {
+  return {
     materia: $('#dMateria').value.trim(), title: $('#dTitle').value.trim(),
     level: $('#dLevel').value, type: $('#dType').value, date: $('#dDate').value, time: $('#dTime').value,
     duration: Number($('#dDuration').value), n: Number($('#dCount').value), focus: $('#dFocus').value,
-    syllabus: $('#dSyllabus').value.trim(), key: $('#dApiKey').value.trim()
+    context: $('#dContext').value, formats: $$('.dfmt:checked').map(c => c.value), extra: $('#dExtra').value.trim(),
+    syllabus: $('#dSyllabus').value.trim(), key: $('#dApiKey').value.trim(), review: $('#dReview').checked
   };
+}
+
+function cleanQuestion(q, i) {
+  return {
+    id: `R${i + 1}`, q: String(q.q).trim(), options: q.options.map(o => String(o).trim()), answer: q.answer,
+    explanation: String(q.explanation || '').trim(), bloom: q.bloom || 'Comprender', topic: q.topic || '',
+    format: q.format || '', calc: q.calc || null
+  };
+}
+
+/* ---------- Generación ---------- */
+$('#designerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = readDesignerForm();
   const errs = [];
   if (!f.materia) errs.push('la materia');
   if (!f.syllabus) errs.push('el temario');
@@ -1879,60 +2129,148 @@ $('#designerForm').addEventListener('submit', async e => {
   if (!f.time) errs.push('la hora');
   if (!(f.duration >= 15 && f.duration <= 120)) errs.push('una duración de 15 a 120 minutos');
   if (!(f.n >= 5 && f.n <= 30)) errs.push('de 5 a 30 reactivos');
+  if (!f.formats.length) errs.push('al menos un formato de reactivo');
   const errEl = $('#designerError');
   if (errs.length) { errEl.textContent = `Completa ${errs.join(', ')}.`; errEl.classList.remove('hidden'); return; }
   errEl.classList.add('hidden');
+  if (T.draft && T.draft.questions?.length && !(await ask('Reemplazar la vista previa', 'La evaluación que estás editando se reemplazará por una nueva. Si no la has guardado, se perderá.', 'Generar nueva'))) return;
 
   if ($('#dRememberKey').checked && f.key) store.set(`${NS}_gemini_key`, f.key); else store.del(`${NS}_gemini_key`);
 
   const btn = $('#btnGenerate');
   btn.disabled = true; btn.textContent = '⏳ Generando…';
   $('#genLog').innerHTML = '';
-  $('#genPreview').innerHTML = '<div class="p-6 text-center text-slate-500 text-sm animate-pulse">Construyendo reactivos…</div>';
+  $('#genPreview').className = 'panel p-6';
+  $('#genPreview').innerHTML = '<div class="text-center text-slate-500 text-sm animate-pulse">Construyendo reactivos…</div>';
+  T.draftForm = f;
 
-  let result, source;
+  let questions, topics, source;
   try {
     if (!f.key) throw Object.assign(new Error('Sin clave API'), { skip: true });
-    genLog(`Iniciando Gemini con failover: ${GEMINI_MODELS.join(' → ')}`);
-    result = await callGemini(f.key, buildPrompt(f), f.n, genLog);
-    source = `IA · ${result.model}`;
-    if (result.questions.length < f.n) {
-      const fill = generateInternal({ ...f, n: f.n - result.questions.length });
+    genLog(`Generación con Gemini y failover: ${GEMINI_MODELS.join(' → ')}`);
+    const gen = await callGemini(f.key, buildPrompt(f), t => parseAIJson(t, f.n), genLog, 'Generación');
+    questions = gen.data.questions;
+    topics = gen.data.topics;
+    source = `IA · ${gen.model}`;
+    genLog(`${questions.length} reactivos recibidos`, 'ok');
+    if (questions.length < f.n) {
+      const fill = generateInternal({ ...f, n: f.n - questions.length });
       genLog(`Se completaron ${fill.questions.length} reactivos con el motor interno`, 'warn');
-      result.questions = [...result.questions, ...fill.questions];
+      questions = [...questions, ...fill.questions.map(q => ({ ...q, format: FORMATS.decision, calc: null }))];
       source += ' + motor interno';
+    }
+    if (f.review) {
+      genLog('Revisión psicométrica: segunda pasada con IA…');
+      try {
+        const flags = questions.map((q, i) => ({ reactivo: i + 1, alertas: validateItem(q).filter(x => x.level !== 'ok').map(x => x.msg) }));
+        const rev = await callGemini(f.key, buildReviewPrompt(f, questions, flags), t => parseReview(t, questions.length), genLog, 'Revisión');
+        const changed = rev.data.filter(q => q._review && !/^sin cambios/i.test(q._review.trim())).length;
+        questions = rev.data;
+        source += ' + revisión';
+        genLog(`✔ Revisión completada: ${changed} reactivo(s) corregido(s)`, 'ok');
+      } catch (err) {
+        genLog(`La revisión no se completó (${err.message}); se conservan los reactivos originales.`, 'warn');
+      }
     }
   } catch (err) {
     genLog(err.skip ? 'No hay clave API: se usa el motor pedagógico interno.' : 'Respaldo pedagógico automático activado.', 'warn');
-    await sleep(300);
-    result = generateInternal(f);
+    if (f.formats.some(k => !['conceptual', 'decision'].includes(k))) genLog('El motor interno solo produce formatos conceptual y de decisión; los demás requieren Gemini.', 'warn');
+    const gen = generateInternal(f);
+    questions = gen.questions.map(q => ({ ...q, format: ['Recordar', 'Comprender'].includes(q.bloom) ? FORMATS.conceptual : FORMATS.decision, calc: null }));
+    topics = gen.topics;
     source = 'Motor pedagógico interno';
-    genLog(`✔ ${result.questions.length} reactivos generados a partir de ${result.topics.length} tema(s) del temario`, 'ok');
+    genLog(`✔ ${questions.length} reactivos generados a partir de ${topics.length} tema(s)`, 'ok');
   }
 
-  const topics = result.topics?.length ? result.topics : parseTopics(f.syllabus);
+  questions = balanceKeys(questions);
+  const withIssues = questions.filter(q => validateItem(q).some(x => x.level !== 'ok')).length;
+  genLog(withIssues ? `Validador: ${withIssues} reactivo(s) con alertas; revísalos en la vista previa.` : 'Validador: todos los reactivos pasan los criterios automáticos.', withIssues ? 'warn' : 'ok');
+
   T.draft = {
     id: uid('EX'), pin: makePin(f.materia, f.type), materia: f.materia,
     title: f.title || `${f.type} · ${f.materia}`, level: f.level, type: f.type,
-    date: f.date, time: f.time, duration: f.duration, topics,
-    questions: result.questions.map((q, i) => ({ ...q, id: `R${i + 1}` })),
+    date: f.date, time: f.time, duration: f.duration,
+    topics: topics?.length ? topics : parseTopics(f.syllabus),
+    questions: questions.map((q, i) => ({ ...q, id: `R${i + 1}` })),
     source, isDemo: false, createdAt: Date.now()
   };
+  T.editing = null; T.newItem = false; T.busy = null;
   renderDraft();
   btn.disabled = false; btn.textContent = '⚡ Generar evaluación';
 });
 
+/* ---------- Vista previa editable ---------- */
+function issueList(issues) {
+  const shown = issues.filter(x => x.level !== 'ok');
+  if (!shown.length) return '';
+  return `<ul class="mt-2 space-y-1">${shown.map(x => `<li class="text-[11px] rounded-md px-2 py-1 ${x.level === 'error' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-800'}">${x.level === 'error' ? '⛔' : '⚠️'} ${esc(x.msg)}</li>`).join('')}</ul>`;
+}
+
+function itemEditor(q, i) {
+  const opt = k => `
+    <label class="flex items-start gap-2">
+      <input type="radio" name="eq-ans" value="${k}" ${k === q.answer ? 'checked' : ''} class="mt-3.5 text-emerald-600" aria-label="Marcar ${LETTERS[k]} como correcta">
+      <span class="mt-3 font-extrabold text-sm w-4 text-slate-600">${LETTERS[k]}</span>
+      <input id="eq-o${k}" class="input text-sm eq-opt" value="${esc(q.options[k] || '')}">
+    </label>`;
+  return `
+  <div class="space-y-3">
+    <div><label class="label" for="eq-q">Enunciado</label><textarea id="eq-q" rows="4" class="input text-sm">${esc(q.q)}</textarea></div>
+    <div class="space-y-2">
+      <p class="label mb-0">Opciones · marca la correcta</p>
+      ${[0, 1, 2, 3].map(opt).join('')}
+      <p id="eq-ratio" class="text-[11px] text-slate-500 pl-10"></p>
+    </div>
+    <div><label class="label" for="eq-exp">Argumentación pedagógica</label><textarea id="eq-exp" rows="4" class="input text-xs">${esc(q.explanation)}</textarea></div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+      <div><label class="label" for="eq-bloom">Nivel Bloom</label><select id="eq-bloom" class="input text-sm">${BLOOM_LEVELS.map(b => `<option ${b === q.bloom ? 'selected' : ''}>${b}</option>`).join('')}</select></div>
+      <div><label class="label" for="eq-format">Formato</label><select id="eq-format" class="input text-sm">${Object.values(FORMATS).map(v => `<option ${v === q.format ? 'selected' : ''}>${esc(v)}</option>`).join('')}</select></div>
+      <div><label class="label" for="eq-topic">Tema</label><input id="eq-topic" class="input text-sm" value="${esc(q.topic)}"></div>
+    </div>
+    <details class="rounded-lg border border-slate-200 p-3" ${q.calc ? 'open' : ''}>
+      <summary class="text-xs font-bold text-slate-600 cursor-pointer">🧮 Verificación de cálculo (opcional)</summary>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+        <div class="sm:col-span-2"><label class="label" for="eq-expr">Expresión</label><input id="eq-expr" class="input text-sm font-mono" placeholder="(1500-1200)/1200*100" value="${esc(q.calc?.expresion || '')}"></div>
+        <div><label class="label" for="eq-res">Resultado</label><input id="eq-res" class="input text-sm font-mono" inputmode="decimal" value="${q.calc && Number.isFinite(q.calc.resultado) ? q.calc.resultado : ''}"></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-1">Si la llenas, el validador comprueba que la opción correcta contenga el resultado.</p>
+    </details>
+    <div class="flex flex-wrap gap-2">
+      <button class="btn btn-emerald btn-sm" data-act="save-edit" data-i="${i}">Guardar reactivo</button>
+      <button class="btn btn-ghost btn-sm" data-act="cancel-edit" data-i="${i}">Cancelar</button>
+    </div>
+  </div>`;
+}
+
+function updateEditorRatio() {
+  const lens = $$('.eq-opt').map(x => x.value.trim().length);
+  const el = $('#eq-ratio');
+  if (!el || lens.some(l => !l)) { if (el) el.textContent = 'Completa las cuatro opciones.'; return; }
+  const ratio = Math.max(...lens) / Math.min(...lens);
+  el.className = `text-[11px] pl-10 ${ratio > 1.35 ? 'text-amber-700 font-semibold' : 'text-emerald-700'}`;
+  el.textContent = `Longitudes: ${lens.join(' · ')} caracteres · proporción ×${ratio.toFixed(2)} ${ratio > 1.35 ? '(conviene equilibrarlas)' : '(balanceadas)'}`;
+}
+
 function renderDraft() {
   const d = T.draft;
-  const flagged = d.questions.filter(q => !balanceInfo(q).ok).length;
-  $('#genPreview').className = 'panel p-5 sm:p-6';
-  $('#genPreview').innerHTML = `
+  if (!d) return;
+  const per = d.questions.map(q => validateItem(q));
+  const exam = validateExam(d.questions);
+  const nErr = per.filter(a => a.some(x => x.level === 'error')).length;
+  const nWarn = per.filter(a => !a.some(x => x.level === 'error') && a.some(x => x.level === 'warn')).length;
+  const nOk = d.questions.length - nErr - nWarn;
+  const locked = T.busy !== null || T.editing !== null;
+  const isExisting = T.exams.some(x => x.id === d.id);
+  const prev = $('#genPreview');
+  prev.className = 'panel p-5 sm:p-6';
+  prev.innerHTML = `
     <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
-      <div>
+      <div class="min-w-0">
         <div class="flex flex-wrap gap-1.5 mb-2">
           <span class="badge bg-purple-100 text-purple-800">${esc(d.level)}</span>
           <span class="badge bg-indigo-100 text-indigo-800">${esc(d.type)}</span>
-          <span class="badge bg-slate-100 text-slate-600">${esc(d.source)}</span>
+          <span class="badge bg-slate-100 text-slate-600">${esc(d.source || 'Edición manual')}</span>
+          ${isExisting ? '<span class="badge bg-amber-100 text-amber-800">Editando examen guardado</span>' : ''}
         </div>
         <p class="text-xs font-bold text-slate-500">${esc(d.materia)}</p>
         <h3 class="text-lg font-extrabold text-slate-900">${esc(d.title)}</h3>
@@ -1940,33 +2278,176 @@ function renderDraft() {
       </div>
       <span class="font-mono font-extrabold text-xl text-indigo-700 bg-indigo-50 rounded-lg px-3 py-1.5">${esc(d.pin)}</span>
     </div>
-    ${flagged ? `<p class="text-xs rounded-lg bg-amber-50 border border-amber-200 text-amber-800 p-2.5 mb-4">${flagged} reactivo(s) con opciones desbalanceadas o con palabras delatoras; revísalos antes de aplicar.</p>` : '<p class="text-xs rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 p-2.5 mb-4">Todas las opciones cumplen el criterio de simetría y no contienen justificaciones delatoras.</p>'}
-    <div class="flex flex-wrap gap-2 mb-5">
-      <button id="btnSaveQR" class="btn btn-primary">💾 Guardar en repositorio y ver QR</button>
-      <button id="btnTryDraft" class="btn btn-ghost">🎒 Probar como alumno</button>
+    <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+      <div class="rounded-xl bg-emerald-50 border border-emerald-200 p-2"><p class="font-mono font-extrabold text-xl text-emerald-700">${nOk}</p><p class="text-[11px] font-bold text-emerald-800">Sin alertas</p></div>
+      <div class="rounded-xl bg-amber-50 border border-amber-200 p-2"><p class="font-mono font-extrabold text-xl text-amber-700">${nWarn}</p><p class="text-[11px] font-bold text-amber-800">Con alertas</p></div>
+      <div class="rounded-xl bg-rose-50 border border-rose-200 p-2"><p class="font-mono font-extrabold text-xl text-rose-700">${nErr}</p><p class="text-[11px] font-bold text-rose-800">Con errores</p></div>
     </div>
-    <ol class="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+    <p class="text-[11px] text-slate-500 mb-3">Claves: A=${exam.dist[0]} · B=${exam.dist[1]} · C=${exam.dist[2]} · D=${exam.dist[3]}</p>
+    ${issueList(exam.issues)}
+    <div class="flex flex-wrap gap-2 my-5">
+      <button class="btn btn-primary" data-act="save-qr" ${locked ? 'disabled' : ''}>💾 Guardar en repositorio y ver QR</button>
+      <button class="btn btn-ghost" data-act="try" ${locked ? 'disabled' : ''}>🎒 Probar como alumno</button>
+      <button class="btn btn-ghost" data-act="rebalance" ${locked ? 'disabled' : ''}>🔀 Rebalancear claves</button>
+      <button class="btn btn-ghost" data-act="add" ${locked ? 'disabled' : ''}>＋ Agregar reactivo</button>
+    </div>
+    <ol class="space-y-3">
       ${d.questions.map((q, i) => {
-        const bi = balanceInfo(q);
-        return `<li class="rounded-xl border border-slate-200 p-4">
+        const iss = per[i];
+        const hasErr = iss.some(x => x.level === 'error');
+        const hasWarn = iss.some(x => x.level === 'warn');
+        const calcOk = iss.find(x => x.level === 'ok');
+        const status = hasErr ? `<span class="badge bg-rose-100 text-rose-700">⛔ ${iss.filter(x => x.level === 'error').length} error(es)</span>`
+          : hasWarn ? `<span class="badge bg-amber-100 text-amber-800">⚠️ ${iss.filter(x => x.level === 'warn').length} alerta(s)</span>`
+          : '<span class="badge bg-emerald-100 text-emerald-700">✓ Sin alertas</span>';
+        const editing = T.editing === i;
+        const busy = T.busy === i;
+        return `<li class="rounded-xl border ${editing ? 'border-indigo-400 ring-2 ring-indigo-100' : hasErr ? 'border-rose-200' : 'border-slate-200'} p-4">
           <div class="flex flex-wrap items-center gap-1.5 mb-2">
             <span class="badge bg-slate-900 text-white">${i + 1}</span>
             <span class="badge bg-purple-100 text-purple-800">${esc(q.bloom)}</span>
+            ${q.format ? `<span class="badge bg-indigo-50 text-indigo-700">${esc(q.format)}</span>` : ''}
             ${q.topic ? `<span class="badge bg-slate-100 text-slate-600">${esc(q.topic)}</span>` : ''}
-            <span class="badge ${bi.ok ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">${bi.ok ? 'Balance ✓' : bi.forbidden ? 'Palabra delatora' : `Desbalance ×${bi.ratio.toFixed(2)}`}</span>
+            ${status}
+            ${calcOk ? `<span class="badge bg-emerald-100 text-emerald-700">🧮 ${esc(calcOk.msg)}</span>` : ''}
           </div>
-          <p class="font-semibold text-sm text-slate-900 mb-2">${esc(q.q)}</p>
-          <ul class="space-y-1 text-sm">${q.options.map((o, k) => `<li class="rounded-lg px-2.5 py-1.5 ${k === q.answer ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-700'}">${LETTERS[k]}) ${esc(o)} ${k === q.answer ? '✔' : ''}</li>`).join('')}</ul>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed"><b class="text-indigo-700">Argumentación:</b> ${esc(q.explanation)}</p>
+          ${busy ? '<p class="text-sm text-slate-500 animate-pulse py-4">Regenerando reactivo…</p>' : editing ? itemEditor(q, i) : `
+            <p class="font-semibold text-sm text-slate-900 mb-2 whitespace-pre-line">${esc(q.q)}</p>
+            <ul class="space-y-1 text-sm">${q.options.map((o, k) => `<li class="rounded-lg px-2.5 py-1.5 ${k === q.answer ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-700'}">${LETTERS[k]}) ${esc(o)} ${k === q.answer ? '✔' : ''}</li>`).join('')}</ul>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed"><b class="text-indigo-700">Argumentación:</b> ${esc(q.explanation)}</p>
+            ${q._review && !/^sin cambios/i.test(q._review.trim()) ? `<p class="text-[11px] text-purple-700 bg-purple-50 rounded-md px-2 py-1 mt-2">🔎 Revisor IA: ${esc(q._review)}</p>` : ''}
+            ${issueList(iss)}
+            <div class="flex flex-wrap gap-2 mt-3">
+              <button class="btn btn-ghost btn-sm" data-act="edit" data-i="${i}" ${locked ? 'disabled' : ''}>✏️ Editar</button>
+              <button class="btn btn-ghost btn-sm" data-act="regen" data-i="${i}" ${locked ? 'disabled' : ''}>🔄 Regenerar</button>
+              <button class="btn btn-ghost btn-sm text-rose-600" data-act="del" data-i="${i}" ${locked ? 'disabled' : ''}>🗑 Eliminar</button>
+            </div>`}
         </li>`;
       }).join('')}
     </ol>`;
-  const save = async () => {
-    try { await DB.saveExam(T.draft); T.exams = [T.draft, ...T.exams.filter(x => x.id !== T.draft.id)]; toast(`Evaluación guardada con PIN ${T.draft.pin}.`, 'ok'); return true; }
-    catch (err) { console.error(err); toast('No se pudo guardar la evaluación.', 'err'); return false; }
+  if (T.editing !== null) {
+    $$('.eq-opt').forEach(x => x.addEventListener('input', updateEditorRatio));
+    updateEditorRatio();
+  }
+}
+
+function syncDraftMeta() {
+  const f = readDesignerForm();
+  const d = T.draft;
+  if (f.materia) d.materia = f.materia;
+  if (f.title) d.title = f.title;
+  d.level = f.level; d.type = f.type;
+  if (f.date) d.date = f.date;
+  if (f.time) d.time = f.time;
+  if (f.duration >= 15 && f.duration <= 120) d.duration = f.duration;
+}
+
+async function saveDraft() {
+  const d = T.draft;
+  if (T.editing !== null) { toast('Guarda o cancela el reactivo que estás editando.', 'warn'); return false; }
+  if (d.questions.length < 5 || d.questions.length > 30) { toast('El examen debe tener entre 5 y 30 reactivos.', 'err'); return false; }
+  const errs = d.questions.filter(q => validateItem(q).some(x => x.level === 'error')).length;
+  if (errs && !(await ask('Hay reactivos con errores', `${errs} reactivo(s) tienen errores del validador. ¿Guardar de todas formas?`, 'Guardar'))) return false;
+  syncDraftMeta();
+  const exam = {
+    id: d.id, pin: d.pin, materia: d.materia, title: d.title, level: d.level, type: d.type,
+    date: d.date, time: d.time, duration: d.duration, topics: d.topics || [],
+    questions: d.questions.map(cleanQuestion),
+    source: d.isDemo && !/edición/.test(d.source || '') ? `${d.source || 'demo'} + edición docente` : (d.source || 'Edición manual'),
+    isDemo: !!d.isDemo, createdAt: d.createdAt || Date.now()
   };
-  $('#btnSaveQR').onclick = async () => { const ex = T.draft; if (await save()) { go('repo'); openQR(ex); } };
-  $('#btnTryDraft').onclick = async () => { const ex = T.draft; if (await save()) testAsStudent(ex); };
+  try {
+    await DB.saveExam(exam);
+    T.exams = [exam, ...T.exams.filter(x => x.id !== exam.id)];
+    T.draft = { ...exam, questions: exam.questions.map(q => ({ ...q })) };
+    toast(`Evaluación guardada con PIN ${exam.pin}.`, 'ok');
+    return exam;
+  } catch (err) {
+    console.error(err);
+    toast('No se pudo guardar la evaluación.', 'err');
+    return false;
+  }
+}
+
+async function regenerateItem(i) {
+  const d = T.draft, old = d.questions[i];
+  const f = { ...(T.draftForm || readDesignerForm()), key: $('#dApiKey').value.trim() };
+  if (!f.syllabus) f.syllabus = (d.topics || []).join('\n') || d.materia;
+  T.busy = i; renderDraft();
+  let q = null;
+  try {
+    if (!f.key) throw Object.assign(new Error('Sin clave API'), { skip: true });
+    const r = await callGemini(f.key, buildPrompt(f, { topic: old.topic, bloom: old.bloom, format: old.format, avoid: old.q }), t => parseAIJson(t, 1), genLog, `Reactivo ${i + 1}`);
+    q = r.data.questions[0];
+  } catch (err) {
+    genLog(err.skip ? `Reactivo ${i + 1}: sin clave API, se usa el motor interno.` : `Reactivo ${i + 1}: Gemini no respondió, se usa el motor interno.`, 'warn');
+    q = generateInternalOne({ bloom: old.bloom, topic: old.topic || d.materia, avoid: old.q });
+  }
+  T.busy = null;
+  if (q) {
+    d.questions[i] = placeAnswer({ ...q, id: old.id }, old.answer);
+    genLog(`✔ Reactivo ${i + 1} regenerado`, 'ok');
+  } else toast('No se pudo regenerar el reactivo.', 'err');
+  renderDraft();
+}
+
+$('#genPreview').addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled || !T.draft) return;
+  const i = Number(b.dataset.i);
+  const d = T.draft;
+  switch (b.dataset.act) {
+    case 'edit': T.editing = i; T.newItem = false; renderDraft(); $('#eq-q')?.focus(); break;
+    case 'cancel-edit':
+      if (T.newItem) d.questions.splice(i, 1);
+      T.editing = null; T.newItem = false; renderDraft(); break;
+    case 'save-edit': {
+      const options = [0, 1, 2, 3].map(k => $(`#eq-o${k}`).value.trim());
+      const stem = $('#eq-q').value.trim();
+      const checked = $('[name="eq-ans"]:checked');
+      if (!stem || options.some(o => !o)) { toast('Escribe el enunciado y las cuatro opciones.', 'err'); return; }
+      if (!checked) { toast('Marca cuál opción es la correcta.', 'err'); return; }
+      const expr = $('#eq-expr').value.trim();
+      const res = $('#eq-res').value.trim();
+      d.questions[i] = {
+        ...d.questions[i], q: stem, options, answer: Number(checked.value),
+        explanation: $('#eq-exp').value.trim(), bloom: $('#eq-bloom').value, format: $('#eq-format').value,
+        topic: $('#eq-topic').value.trim(), calc: expr ? { expresion: expr, resultado: res === '' ? NaN : Number(res.replace(',', '.')) } : null,
+        _review: undefined
+      };
+      T.editing = null; T.newItem = false; d.source = d.source?.includes('edición docente') ? d.source : `${d.source || 'IA'} + edición docente`;
+      renderDraft(); toast(`Reactivo ${i + 1} actualizado.`, 'ok'); break;
+    }
+    case 'del':
+      if (await ask('Eliminar reactivo', `Se quitará el reactivo ${i + 1} de esta evaluación.`, 'Eliminar')) { d.questions.splice(i, 1); renderDraft(); }
+      break;
+    case 'regen': regenerateItem(i); break;
+    case 'rebalance': d.questions = balanceKeys(d.questions); renderDraft(); toast('Claves redistribuidas entre A, B, C y D.', 'ok'); break;
+    case 'add':
+      if (d.questions.length >= 30) { toast('El máximo es de 30 reactivos.', 'warn'); return; }
+      d.questions.push({ id: `R${d.questions.length + 1}`, q: '', options: ['', '', '', ''], answer: 0, explanation: '', bloom: 'Aplicar', topic: '', format: FORMATS.decision, calc: null });
+      T.editing = d.questions.length - 1; T.newItem = true; renderDraft();
+      $('#eq-q')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); $('#eq-q')?.focus(); break;
+    case 'save-qr': { const ex = await saveDraft(); if (ex) { go('repo'); openQR(ex); } break; }
+    case 'try': { const ex = await saveDraft(); if (ex) testAsStudent(ex); break; }
+  }
+});
+
+function loadIntoDesigner(exam) {
+  if (!exam) return;
+  T.draft = JSON.parse(JSON.stringify(exam));
+  T.draft.questions = T.draft.questions.map(q => ({ format: '', calc: null, ...q }));
+  $('#dMateria').value = exam.materia; $('#dTitle').value = exam.title;
+  $('#dLevel').value = exam.level; $('#dType').value = exam.type;
+  $('#dDate').value = exam.date; $('#dTime').value = exam.time; $('#dDuration').value = exam.duration;
+  $('#dCount').value = Math.min(30, Math.max(5, exam.questions.length));
+  $('#dSyllabus').value = (exam.topics || []).join('\n');
+  T.draftForm = readDesignerForm();
+  T.editing = null; T.newItem = false; T.busy = null;
+  go('designer');
+  $('#genLog').innerHTML = '';
+  genLog(`Editando «${exam.title}» (${exam.pin}). Al guardar se actualiza el mismo examen; las calificaciones ya registradas no cambian.`);
+  renderDraft();
 }
 
 /* ===================== ARRANQUE ===================== */
@@ -1975,6 +2456,7 @@ async function boot() {
   fillSelect($('#fType'), TYPES, 'Todos los tipos');
   fillSelect($('#dLevel'), LEVELS);
   fillSelect($('#dType'), TYPES);
+  renderFormatChecks();
   $('#dDate').value = todayISO(7);
   const savedKey = store.get(`${NS}_gemini_key`, '');
   if (savedKey) { $('#dApiKey').value = savedKey; $('#dRememberKey').checked = true; }
