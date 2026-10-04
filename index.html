@@ -1169,13 +1169,155 @@
     </div>
   </div>
 
-  <script type="const firebaseConfig = {
-  apiKey: "AIzaSyDO1OLrV-2GQJ6esQMe8jvo7M3n036hFMk",
-  authDomain: "sigea-1d546.firebaseapp.com",
-  projectId: "sigea-1d546",
-  storageBucket: "sigea-1d546.firebasestorage.app",
-  messagingSenderId: "952018442968",
-  appId: "1:952018442968:web:89d36be24135f8043e95ad"">
+  <!-- SCRIPT BASE INMEDIATO: Garantiza navegación y modales sin depender de cargas externas -->
+  <script>
+    // Variables globales de sesión y datos expuestas de inmediato
+    window.isTeacherAuthenticated = false;
+    window.pendingTeacherView = null;
+    window.TEACHER_USER = "docente";
+    window.TEACHER_PASS = "admin2026";
+
+    // Función universal para cambio de vista protegida
+    window.switchView = function(view) {
+      if ((view === 'catalog' || view === 'teacher' || view === 'generator' || view === 'bank') && !window.isTeacherAuthenticated) {
+        window.openTeacherLoginModal(view);
+        return;
+      }
+
+      ['viewRegistration', 'viewExam', 'viewResults', 'viewTeacher', 'viewCatalog', 'viewGenerator', 'viewBank'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      var navIds = ['navStudentBtn', 'navCatalogBtn', 'navTeacherBtn', 'navGeneratorBtn', 'navBankBtn'];
+      navIds.forEach(function(nid) {
+        var btn = document.getElementById(nid);
+        if (btn) btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center space-x-1.5 border border-slate-700";
+      });
+
+      var activeNav = null;
+      if (view === 'student') {
+        var vReg = document.getElementById('viewRegistration');
+        var vEx = document.getElementById('viewExam');
+        if (window.examIsActive && vEx) {
+          vEx.classList.remove('hidden');
+        } else if (vReg) {
+          vReg.classList.remove('hidden');
+          if (typeof window.updateStudentAssignedExamCard === 'function') window.updateStudentAssignedExamCard();
+        }
+        activeNav = document.getElementById('navStudentBtn');
+        if (activeNav) activeNav.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm flex items-center space-x-1.5";
+      } else if (view === 'catalog') {
+        var vCat = document.getElementById('viewCatalog');
+        if (vCat) vCat.classList.remove('hidden');
+        activeNav = document.getElementById('navCatalogBtn');
+        if (activeNav) activeNav.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm flex items-center space-x-1.5 border border-emerald-500";
+        if (typeof window.renderCatalogCards === 'function') window.renderCatalogCards();
+      } else if (view === 'bank') {
+        var vBk = document.getElementById('viewBank');
+        if (vBk) vBk.classList.remove('hidden');
+        activeNav = document.getElementById('navBankBtn');
+        if (activeNav) activeNav.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-cyan-600 text-white hover:bg-cyan-500 shadow-sm flex items-center space-x-1.5 border border-cyan-500";
+        if (typeof window.renderItemBankCards === 'function') window.renderItemBankCards();
+      } else if (view === 'teacher') {
+        var vTeach = document.getElementById('viewTeacher');
+        if (vTeach) vTeach.classList.remove('hidden');
+        activeNav = document.getElementById('navTeacherBtn');
+        if (activeNav) activeNav.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm flex items-center space-x-1.5";
+        if (typeof window.renderTeacherDashboard === 'function') window.renderTeacherDashboard();
+      } else if (view === 'generator') {
+        var vGen = document.getElementById('viewGenerator');
+        if (vGen) vGen.classList.remove('hidden');
+        activeNav = document.getElementById('navGeneratorBtn');
+        if (activeNav) activeNav.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-purple-600 text-white hover:bg-purple-500 shadow-sm flex items-center space-x-1.5 border border-purple-500";
+        if (typeof window.setDefaultGeneratorDates === 'function') window.setDefaultGeneratorDates();
+      }
+    };
+
+    window.toggleTeacherAuthModal = function() {
+      if (window.isTeacherAuthenticated) {
+        window.isTeacherAuthenticated = false;
+        window.updateTeacherAuthUI();
+        window.switchView('student');
+        if (typeof window.showCustomAlert === 'function') {
+          window.showCustomAlert("Sesión Finalizada", "Has cerrado la sesión docente con éxito.");
+        }
+      } else {
+        window.openTeacherLoginModal();
+      }
+    };
+
+    window.openTeacherLoginModal = function(targetView) {
+      window.pendingTeacherView = targetView || null;
+      var modal = document.getElementById('teacherLoginModal');
+      var err = document.getElementById('teacherLoginErrorBanner');
+      if (err) err.classList.add('hidden');
+      if (modal) modal.classList.remove('hidden');
+      var userInput = document.getElementById('teacherUsernameInput');
+      if (userInput) userInput.focus();
+    };
+
+    window.closeTeacherLoginModal = function() {
+      var modal = document.getElementById('teacherLoginModal');
+      if (modal) modal.classList.add('hidden');
+      window.pendingTeacherView = null;
+    };
+
+    window.handleTeacherLoginSubmit = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      var userEl = document.getElementById('teacherUsernameInput');
+      var passEl = document.getElementById('teacherPasswordInput');
+      var userVal = (userEl ? userEl.value : '').trim();
+      var passVal = (passEl ? passEl.value : '').trim();
+      var errBanner = document.getElementById('teacherLoginErrorBanner');
+
+      if (userVal === window.TEACHER_USER && passVal === window.TEACHER_PASS) {
+        window.isTeacherAuthenticated = true;
+        window.closeTeacherLoginModal();
+        window.updateTeacherAuthUI();
+        if (typeof window.showCustomAlert === 'function') {
+          window.showCustomAlert("Acceso Concedido", "Bienvenido, Profesor. Módulos desbloqueados.");
+        }
+        if (window.pendingTeacherView) {
+          var target = window.pendingTeacherView;
+          window.pendingTeacherView = null;
+          window.switchView(target);
+        } else {
+          window.switchView('catalog');
+        }
+      } else {
+        if (errBanner) errBanner.classList.remove('hidden');
+      }
+    };
+
+    window.updateTeacherAuthUI = function() {
+      var btnLabel = document.getElementById('teacherAuthBtnLabel');
+      var btn = document.getElementById('teacherAuthActionBtn');
+      var lockCat = document.getElementById('catalogLockIcon');
+      var lockGen = document.getElementById('generatorLockIcon');
+      var lockTeach = document.getElementById('teacherLockIcon');
+      var lockBank = document.getElementById('bankLockIcon');
+
+      if (window.isTeacherAuthenticated) {
+        if (btnLabel) btnLabel.textContent = "Cerrar Sesión";
+        if (btn) btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-rose-950/40 hover:bg-rose-900 text-rose-300 border border-rose-500/50 flex items-center space-x-1.5 shadow-sm";
+        if (lockCat) lockCat.textContent = "🔓";
+        if (lockGen) lockGen.textContent = "🔓";
+        if (lockTeach) lockTeach.textContent = "🔓";
+        if (lockBank) lockBank.textContent = "🔓";
+      } else {
+        if (btnLabel) btnLabel.textContent = "Acceso Docente";
+        if (btn) btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-400/40 flex items-center space-x-1.5 shadow-sm";
+        if (lockCat) lockCat.textContent = "🔒";
+        if (lockGen) lockGen.textContent = "🔒";
+        if (lockTeach) lockTeach.textContent = "🔒";
+        if (lockBank) lockBank.textContent = "🔒";
+      }
+    };
+  </script>
+
+  <!-- MÓDULO PRINCIPAL DE LA PLATAFORMA (FIREBASE Y LÓGICA DE EXÁMENES) -->
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -1199,12 +1341,6 @@
     let auth = null;
     let currentUser = null;
     let isCloudReady = false;
-
-    // Estado de sesión del docente
-    let isTeacherAuthenticated = false;
-    let pendingTeacherView = null;
-    const TEACHER_USER = "docente";
-    const TEACHER_PASS = "admin2026";
 
     // BANCO MAESTRO DE REACTIVOS ACUMULATIVO
     let itemBankDatabase = [];
@@ -3379,6 +3515,7 @@ Genera los ${questionCount} reactivos estructurados según el esquema JSON solic
       renderCatalogCards();
       updateBankMetrics();
       populateBankCourseDropdowns();
+      window.updateTeacherAuthUI();
 
       const urlParams = new URLSearchParams(window.location.search);
       const urlExamId = urlParams.get('examId');
